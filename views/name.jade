@@ -1,7 +1,8 @@
+!= partial('focus', {selector: '#name'}) 
 
 #room
   h1 What shall be your name in this chat?
   form(method="post", action="/name")
     p
-      input(name="name")
+      input(name="name", id="name")
       input(type="submit",value="Start chatting")
