@@ -1,3 +1,5 @@
+!= partial('focus', {selector: '#text'}) 
+
 script(type='text/javascript')
   var room = '#{room}';
   var name = '#{name}';
@@ -6,6 +8,7 @@ script(type='text/javascript')
     load();
     resetSize();
     $(window).resize(resetSize);
+    listen();
   });
 
   function scrollToBottom() {
@@ -21,6 +24,14 @@ script(type='text/javascript')
 
   function humanTime(time) {
     return dateFormat(time, "h:MMTT");
+  }
+
+  function listen() {
+    var socket = io.connect(window.location.hostname);
+    socket.on('news', function (data) {
+      console.log(data);
+      socket.emit('my other event', { my: 'data' });
+    });
   }
 
   function talk() {

@@ -1,8 +1,9 @@
 var express = require('express');
+var app = express.createServer(express.logger());
 var mongoose = require('mongoose');
     mongoose.connect(process.env.MONGOHQ_URL);
 var dateFormat = require('dateformat');
-var app = express.createServer(express.logger());
+var io = require('socket.io').listen(app);
 
 app.use(express.bodyParser());
 app.use(express.cookieParser());
@@ -18,7 +19,6 @@ app.configure(function(){
 function slugify(str) {
   return str;
 }
-
 
 /* Schema */
 
@@ -38,6 +38,17 @@ var RoomSchema = new Schema({
 
 var Message = mongoose.model('message', MessageSchema);
 var Room    = mongoose.model('room', RoomSchema);
+
+
+
+/* Sockets */
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
 
 
 /* Controllers */

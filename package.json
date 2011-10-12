@@ -6,6 +6,7 @@
     "jade": "latest",
     "mongoose": "latest",
     "dateformat": "latest",
-    "node-inspector": "latest"
+    "node-inspector": "latest",
+    "socket.io": "latest"
   }
 }
