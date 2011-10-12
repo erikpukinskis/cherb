@@ -13,6 +13,13 @@ app.configure(function(){
 });
 
 
+/* Helpers */
+
+function slugify(str) {
+  return str;
+}
+
+
 /* Schema */
 
 var Schema   = mongoose.Schema
@@ -82,12 +89,6 @@ app.get('/:room', function(req, res) {
   }
 });
 
-
-/* Helpers */
-
-function slugify(str) {
-  return str.toLowerCase().replace(/[^a-z -]*/, '').replace(/[ -]*/, '-').replace(/^-/, '');
-}
 
 var port = process.env.PORT || 3000;
 app.listen(port, function() {

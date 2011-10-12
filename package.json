@@ -2,9 +2,10 @@
   "name": "cherb",
   "version": "0.0.1",
   "dependencies": {
-    "express": "2.4.7",
-    "jade": "0.13.0",
-    "mongoose": "2.3.2",
-    "dateformat": "1.0.2-1.2.3"
+    "express": "latest",
+    "jade": "latest",
+    "mongoose": "latest",
+    "dateformat": "latest",
+    "node-inspector": "latest"
   }
 }
