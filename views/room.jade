@@ -32,12 +32,11 @@ script(type='text/javascript')
   }
 
 #room
-  h1 Cherb!
-
   #message_box
     ul#messages
       - for (var i in messages)
         li
+          .time= humanTime(messages[i].date)
           .name= messages[i].name
           = messages[i].text
 

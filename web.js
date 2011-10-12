@@ -1,11 +1,16 @@
 var express = require('express');
 var mongoose = require('mongoose');
     mongoose.connect(process.env.MONGOHQ_URL);
+var dateFormat = require('dateformat');
 var app = express.createServer(express.logger());
 
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.session({ secret: "jf93aj90daadt34sefj90feaj90aajd90sj9" }));
+
+app.configure(function(){
+    app.use(express.static(__dirname + '/public'));
+});
 
 var Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId;
@@ -18,7 +23,16 @@ var MessageSchema = new Schema({
 
 var Message = mongoose.model('message', MessageSchema);
 
-app.get('/', function(req, res) {
+app.get('/name', function(req,res) {
+  res.render('name.jade');
+})
+
+app.post('/name', function(req,res) {
+  req.session.name = req.body.name
+  res.redirect('/');
+});
+
+app.get('/:room', function(req, res) {
   req.session.name = "erik"
   if (!req.session.name) {
     res.redirect('/name');  
@@ -32,15 +46,6 @@ app.get('/', function(req, res) {
   }
 });
 
-app.get('/name', function(req,res) {
-  res.render('name.jade');
-})
-
-app.post('/name', function(req,res) {
-  req.session.name = req.body.name
-  res.redirect('/');
-});
-
 app.post('/:room', function(request, response) {
   var msg = new Message(request.body);
   msg.save(function(err) {
@@ -49,9 +54,10 @@ app.post('/:room', function(request, response) {
   response.json(msg);
 });
 
-app.configure(function(){
-    app.use(express.static(__dirname + '/public'));
-});
+function humanTime(time) {
+  return dateFormat(time, "h:MMTT");
+}
+app.helpers({humanTime: humanTime});
 
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
