@@ -1,1 +1,9 @@
-p Cherb room!
+script(type='text/javascript')
+  function talk() {
+    alert($('#message').attr('value'))
+  }
+
+h1 Cherb!
+
+form(method='post', action='cherb', onsubmit='talk(); return false;')
+  input(type='text', name='message', id='message')
