@@ -16,6 +16,10 @@ app.get('/', function(request, response) {
   response.render('room.jade');
 });
 
+app.post('/:room', function(request, response) {
+  response.send('boop!');
+});
+
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log("Listening on " + port);

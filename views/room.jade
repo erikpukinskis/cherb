@@ -1,6 +1,12 @@
 script(type='text/javascript')
+  var room = 'cherb';
+
   function talk() {
-    alert($('#message').attr('value'))
+    var message = $('#message').attr('value');
+
+    jQuery.post(room, {message: message}, function(data) {
+      alert(data);
+    });
   }
 
 h1 Cherb!
