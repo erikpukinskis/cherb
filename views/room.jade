@@ -2,11 +2,18 @@ script(type='text/javascript')
   var room = 'cherb';
 
   $(document).ready(function() {
-    scrollToBottom();
+    resetSize();
+    $(window).resize(resetSize);
   });
 
   function scrollToBottom() {
     $("#message_box").attr({ scrollTop: $("#message_box").attr("scrollHeight") });
+  }
+
+  function resetSize() {
+    var height = $(window).height();
+    $("#message_box").css("height", (height - 130) + "px");
+    scrollToBottom();
   }
 
   function talk() {
