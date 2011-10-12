@@ -1,0 +1,10 @@
+#room
+  h1 Cherb is the easiest way to start a group chat!
+
+  form(method='post',action='/rooms')
+    p 
+      | Enter a name for your room:
+      input(name='slug')
+
+    p
+      input(type='submit',value='Start chatting!')

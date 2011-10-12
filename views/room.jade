@@ -1,5 +1,5 @@
 script(type='text/javascript')
-  var room = 'cherb';
+  var room = '#{room}';
   var name = '#{name}';
   $(document).ready(function() {
     resetSize();
@@ -21,8 +21,8 @@ script(type='text/javascript')
     var text = $('#text').attr('value');
     $.ajax({
       type: 'post',
-      url: room, 
-      data: {text: text, name: name}, 
+      url: '/messages', 
+      data: {text: text, name: name, room: room}, 
       success: function(message) {
         var li = $("<li><span class='name'>" + message.name + "</span>" + message.text + "</li>");
         $("#messages").append(li);
@@ -33,6 +33,7 @@ script(type='text/javascript')
 
 #room
   #message_box
+    h1 room
     ul#messages
       - for (var i in messages)
         li
