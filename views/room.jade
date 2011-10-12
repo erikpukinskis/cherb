@@ -3,19 +3,20 @@ script(type='text/javascript')
 
   function talk() {
     var text = $('#text').attr('value');
-    jQuery.ajax({
+    $.ajax({
       type: 'post',
       url: room, 
       data: {text: text}, 
-      success: function(data) {
-        alert(data);
+      success: function(message) {
+        var li = $("<li>" + message.text + "</li>");
+        $("#messages").append(li);
       }
     });
   }
 
 h1 Cherb!
 
-ul(class='messages')
+ul#messages
   - for (var i in messages)
     li= messages[i].text
 

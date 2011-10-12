@@ -30,7 +30,7 @@ app.post('/:room', function(request, response) {
   msg.save(function(err) {
     console.log(err);
   });
-  response.send("message: " + text);
+  response.json(msg);
 });
 
 var port = process.env.PORT || 3000;
