@@ -22,7 +22,7 @@ var MessageSchema = new Schema({
     name      : String
   , text      : String
   , date      : {type:Date, default:Date.now}
-  , room      : ObjectId
+  , room      : String
 });
 
 var RoomSchema = new Schema({
@@ -52,20 +52,6 @@ app.post('/rooms', function(req,res) {
 app.post('/name', function(req,res) {
   req.session.name = req.body.name
   res.redirect("/" + req.session.room);
-}); 
-
-app.get('/:room', function(req, res) {
-  if (!req.session.name) {
-    req.session.room = req.params.room
-    res.redirect('/name');  
-  } else {
-    Message.find({}, function(err, messages) {
-      if (err) {
-        console.log(err);
-      }
-      res.render('room.jade', {locals: {messages: messages, name: req.session.name, room: req.params.room}});
-    });
-  }
 });
 
 app.post('/messages', function(request, response) {
@@ -74,8 +60,27 @@ app.post('/messages', function(request, response) {
     console.log(err);
   });
   response.json(msg);
+}); 
+
+app.get('/:room/messages.json', function(req,res) {
+  Message.find({room: req.params.room}, function(err, messages) {
+    if (err) {
+      console.log(err);
+    }
+    res.json(messages);
+  });
 });
 
+app.get('/:room', function(req, res) {
+  var room = req.params.room;
+  var name = req.session.name;
+  if (!name) {
+    req.session.room = room;
+    res.redirect('/name');  
+  } else {
+    res.render('room.jade', {locals: {name: name, room: room}});
+  }
+});
 
 
 /* Helpers */
@@ -83,11 +88,6 @@ app.post('/messages', function(request, response) {
 function slugify(str) {
   return str.toLowerCase().replace(/[^a-z -]*/, '').replace(/[ -]*/, '-').replace(/^-/, '');
 }
-
-function humanTime(time) {
-  return dateFormat(time, "h:MMTT");
-}
-app.helpers({humanTime: humanTime});
 
 var port = process.env.PORT || 3000;
 app.listen(port, function() {

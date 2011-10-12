@@ -1,7 +1,9 @@
 script(type='text/javascript')
   var room = '#{room}';
   var name = '#{name}';
+
   $(document).ready(function() {
+    load();
     resetSize();
     $(window).resize(resetSize);
   });
@@ -17,6 +19,10 @@ script(type='text/javascript')
     scrollToBottom();
   }
 
+  function humanTime(time) {
+    return dateFormat(time, "h:MMTT");
+  }
+
   function talk() {
     var text = $('#text').attr('value');
     $.ajax({
@@ -24,22 +30,34 @@ script(type='text/javascript')
       url: '/messages', 
       data: {text: text, name: name, room: room}, 
       success: function(message) {
-        var li = $("<li><span class='name'>" + message.name + "</span>" + message.text + "</li>");
-        $("#messages").append(li);
+        add(message);
         scrollToBottom();
       }
     });
   }
 
+  function load() {
+    $.ajax({
+      type: 'get',
+      url: '/' + room + '/messages.json',
+      success: function(messages) {
+        for (var i in messages) {
+          add(messages[i]);
+        }
+      }
+    });   
+  }
+
+  function add(message) {
+    var name = "<span class='name'>" + message.name + "</span>";
+    var time = "<span class='time'>" + humanTime(messages.date) + "</span>";
+    var li = $("<li>" + time + name + message.text + "</li>");
+    $("#messages").append(li);
+  }
 #room
   #message_box
     h1 room
     ul#messages
-      - for (var i in messages)
-        li
-          .time= humanTime(messages[i].date)
-          .name= messages[i].name
-          = messages[i].text
 
   form(method='post', action='cherb', onsubmit='talk(); return false;')
     input(type='text', name='text', id='text')
