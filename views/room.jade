@@ -1,6 +1,14 @@
 script(type='text/javascript')
   var room = 'cherb';
 
+  $(document).ready(function() {
+    scrollToBottom();
+  });
+
+  function scrollToBottom() {
+    $("#message_box").attr({ scrollTop: $("#message_box").attr("scrollHeight") });
+  }
+
   function talk() {
     var text = $('#text').attr('value');
     $.ajax({
@@ -10,15 +18,18 @@ script(type='text/javascript')
       success: function(message) {
         var li = $("<li>" + message.text + "</li>");
         $("#messages").append(li);
+        scrollToBottom();
       }
     });
   }
 
-h1 Cherb!
+#room
+  h1 Cherb!
 
-ul#messages
-  - for (var i in messages)
-    li= messages[i].text
+  #message_box
+    ul#messages
+      - for (var i in messages)
+        li= messages[i].text
 
-form(method='post', action='cherb', onsubmit='talk(); return false;')
-  input(type='text', name='text', id='text')
+  form(method='post', action='cherb', onsubmit='talk(); return false;')
+    input(type='text', name='text', id='text')
