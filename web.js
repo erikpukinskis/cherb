@@ -7,20 +7,25 @@ app.use(express.bodyParser());
 var Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId;
 
-var Message = new Schema({
+var MessageSchema = new Schema({
     author    : String
   , text      : String
-  , date      : Date
+  , date      : {type:Date, default:Date.now}
 });
+
+var Message = mongoose.model('message', MessageSchema);
 
 app.get('/', function(request, response) {
   response.render('room.jade');
 });
 
 app.post('/:room', function(request, response) {
-//  var msg = new Message();
-//  msg.my.text = request.params.message
-  response.send("message: " + request.body.message);
+  var text = request.body.text;
+  var msg = new Message({text: text});
+  msg.save(function(err) {
+    console.log(err);
+  });
+  response.send("message: " + text);
 });
 
 var port = process.env.PORT || 3000;

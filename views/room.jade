@@ -2,11 +2,11 @@ script(type='text/javascript')
   var room = 'cherb';
 
   function talk() {
-    var message = $('#message').attr('value');
+    var text = $('#text').attr('value');
     jQuery.ajax({
       type: 'post',
       url: room, 
-      data: {message: message}, 
+      data: {text: text}, 
       success: function(data) {
         alert(data);
       }
@@ -16,4 +16,4 @@ script(type='text/javascript')
 h1 Cherb!
 
 form(method='post', action='cherb', onsubmit='talk(); return false;')
-  input(type='text', name='message', id='message')
+  input(type='text', name='text', id='text')
