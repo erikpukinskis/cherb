@@ -15,5 +15,9 @@ script(type='text/javascript')
 
 h1 Cherb!
 
+ul(class='messages')
+  - for (var i in messages)
+    li= messages[i].text
+
 form(method='post', action='cherb', onsubmit='talk(); return false;')
   input(type='text', name='text', id='text')

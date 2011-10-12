@@ -16,7 +16,12 @@ var MessageSchema = new Schema({
 var Message = mongoose.model('message', MessageSchema);
 
 app.get('/', function(request, response) {
-  response.render('room.jade');
+  Message.find({}, function(err, messages) {
+    if (err) {
+      console(err);
+    }
+    response.render('room.jade', {locals: {messages: messages}});
+  });
 });
 
 app.post('/:room', function(request, response) {
