@@ -32,6 +32,7 @@ script(type='text/javascript')
       success: function(message) {
         add(message);
         scrollToBottom();
+        $('#text').attr('value','');
       }
     });
   }
