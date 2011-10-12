@@ -3,9 +3,13 @@ script(type='text/javascript')
 
   function talk() {
     var message = $('#message').attr('value');
-
-    jQuery.post(room, {message: message}, function(data) {
-      alert(data);
+    jQuery.ajax({
+      type: 'post',
+      url: room, 
+      data: {message: message}, 
+      success: function(data) {
+        alert(data);
+      }
     });
   }
 
