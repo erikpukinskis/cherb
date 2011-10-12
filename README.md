@@ -3,7 +3,7 @@ Cherb is a simple Node.js chat app I wrote to start playing around with MongoDB 
 Installation
 ============
 
-Install Node.js, npm, mongodb, and foreman.
+Install Node.js, npm, mongodb, and foreman. Start mongod and run:
 
     npm install
     foreman start
