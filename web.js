@@ -20,6 +20,12 @@ function slugify(str) {
   return str;
 }
 
+function broadcast(room, message) {
+  for(var i in sockets) {
+    sockets[i].emit(room, message);
+  }
+}
+
 /* Schema */
 
 var Schema   = mongoose.Schema
@@ -43,11 +49,10 @@ var Room    = mongoose.model('room', RoomSchema);
 
 /* Sockets */
 
+var sockets = [];
+
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
+  sockets.push(socket);
 });
 
 
@@ -77,7 +82,8 @@ app.post('/messages', function(request, response) {
   msg.save(function(err) {
     console.log(err);
   });
-  response.json(msg);
+  response.json({status: 'ok'});
+  broadcast(request.body.room, msg);
 }); 
 
 app.get('/:room/messages.json', function(req,res) {

@@ -28,9 +28,10 @@ script(type='text/javascript')
 
   function listen() {
     var socket = io.connect(window.location.hostname);
-    socket.on('news', function (data) {
-      console.log(data);
-      socket.emit('my other event', { my: 'data' });
+    socket.on(room, function (message) {
+      add(message);
+      scrollToBottom();
+      $('#text').attr('value','');
     });
   }
 
@@ -39,12 +40,7 @@ script(type='text/javascript')
     $.ajax({
       type: 'post',
       url: '/messages', 
-      data: {text: text, name: name, room: room}, 
-      success: function(message) {
-        add(message);
-        scrollToBottom();
-        $('#text').attr('value','');
-      }
+      data: {text: text, name: name, room: room}
     });
   }
 
