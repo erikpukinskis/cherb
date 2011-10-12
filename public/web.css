@@ -11,11 +11,12 @@
 
 #messages {
   list-style: none;
-  padding: 0;
   background-color: white;
-  padding: 0 5px 5px 5px;
+  margin: 0;
+  padding: 0 5px;
 }
 
 #text {
+  margin-top: 10px;
   width: 100%;
 }
