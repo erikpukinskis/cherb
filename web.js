@@ -13,7 +13,7 @@ var Message = new Schema({
 });
 
 app.get('/', function(request, response) {
-  response.send('Cherb!');
+  response.render('room.jade');
 });
 
 var port = process.env.PORT || 3000;
