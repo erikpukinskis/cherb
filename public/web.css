@@ -20,3 +20,10 @@
   margin-top: 10px;
   width: 100%;
 }
+
+.name {
+  display: inline-block;
+  width: 75px;
+  font-weight: bold;
+  color: #777;
+}

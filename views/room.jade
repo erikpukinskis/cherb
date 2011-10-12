@@ -1,6 +1,6 @@
 script(type='text/javascript')
   var room = 'cherb';
-
+  var name = '#{name}';
   $(document).ready(function() {
     resetSize();
     $(window).resize(resetSize);
@@ -13,6 +13,7 @@ script(type='text/javascript')
   function resetSize() {
     var height = $(window).height();
     $("#message_box").css("height", (height - 130) + "px");
+
     scrollToBottom();
   }
 
@@ -21,9 +22,9 @@ script(type='text/javascript')
     $.ajax({
       type: 'post',
       url: room, 
-      data: {text: text}, 
+      data: {text: text, name: name}, 
       success: function(message) {
-        var li = $("<li>" + message.text + "</li>");
+        var li = $("<li><span class='name'>" + message.name + "</span>" + message.text + "</li>");
         $("#messages").append(li);
         scrollToBottom();
       }
@@ -36,7 +37,9 @@ script(type='text/javascript')
   #message_box
     ul#messages
       - for (var i in messages)
-        li= messages[i].text
+        li
+          .name= messages[i].name
+          = messages[i].text
 
   form(method='post', action='cherb', onsubmit='talk(); return false;')
     input(type='text', name='text', id='text')

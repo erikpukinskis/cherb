@@ -11,7 +11,7 @@ var Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId;
 
 var MessageSchema = new Schema({
-    author    : String
+    name      : String
   , text      : String
   , date      : {type:Date, default:Date.now}
 });
@@ -19,6 +19,7 @@ var MessageSchema = new Schema({
 var Message = mongoose.model('message', MessageSchema);
 
 app.get('/', function(req, res) {
+  req.session.name = "erik"
   if (!req.session.name) {
     res.redirect('/name');  
   } else {
@@ -26,7 +27,7 @@ app.get('/', function(req, res) {
       if (err) {
         console.log(err);
       }
-      res.render('room.jade', {locals: {messages: messages}});
+      res.render('room.jade', {locals: {messages: messages, name: req.session.name}});
     });
   }
 });
@@ -41,8 +42,7 @@ app.post('/name', function(req,res) {
 });
 
 app.post('/:room', function(request, response) {
-  var text = request.body.text;
-  var msg = new Message({text: text});
+  var msg = new Message(request.body);
   msg.save(function(err) {
     console.log(err);
   });
